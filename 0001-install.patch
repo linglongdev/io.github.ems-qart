@@ -1,0 +1,60 @@
+From 0b976123ed30e375236095914432ceda75902b65 Mon Sep 17 00:00:00 2001
+From: wjyrich <1071633242@qq.com>
+Date: Sat, 14 Sep 2024 17:09:24 +0800
+Subject: [PATCH] install
+
+---
+ ems-qart.desktop | 11 +++++++++++
+ ems-qart.pro     | 12 +++++++++---
+ 2 files changed, 20 insertions(+), 3 deletions(-)
+ create mode 100644 ems-qart.desktop
+
+diff --git a/ems-qart.desktop b/ems-qart.desktop
+new file mode 100644
+index 0000000..0ee118b
+--- /dev/null
++++ b/ems-qart.desktop
+@@ -0,0 +1,11 @@
++[Desktop Entry]
++Categories=Accessibility;Qt;Utility;
++Exec=ems-qart
++Name=ems-qart
++Name[zh_CN]=ems-qart
++Icon=gb_cart
++StartupNotify=false
++Terminal=false
++Type=Application
++GenericName=ems-qart
++Version=1.0
+diff --git a/ems-qart.pro b/ems-qart.pro
+index 991c3cb..65e5a43 100644
+--- a/ems-qart.pro
++++ b/ems-qart.pro
+@@ -17,10 +17,9 @@ RC_ICONS = images/ems-qart.ico
+ ICON = images/ems-qart.icns
+ 
+ isEmpty(PREFIX) {
+-    UDEV_PREFIX = /etc
+-    PREFIX = /usr/local
++    UDEV_PREFIX = $$PREFIX/lib
+ } else {
+-    UDEV_PREFIX = /lib
++    UDEV_PREFIX = $$PREFIX/lib
+ }
+ 
+ unix:udevrules.path = $$UDEV_PREFIX/udev/rules.d/
+@@ -28,3 +27,10 @@ unix:udevrules.files = 50_ems_gb_flash.rules
+ 
+ unix:target.path = $$PREFIX/bin/
+ unix:INSTALLS += target udevrules
++
++desktop.files = ems-qart.desktop
++desktop.path = $$PREFIX/share/applications/
++icons.path = $$PREFIX/share/icon/shicolor/scalable/apps/
++icons.files = images/gb_cart.svg
++
++INSTALLS += desktop icons
+\ No newline at end of file
+-- 
+2.43.4
+

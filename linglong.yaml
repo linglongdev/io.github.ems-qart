@@ -1,0 +1,38 @@
+version: "1"
+
+package:
+  id: io.github.ems-qart
+  name: ems-qart
+  version: 0.9.4.1
+  kind: app
+  description: |
+    A Qt application to flash EMS 64M cartridges
+
+command:
+  - /opt/apps/io.github.ems-qart/files/bin/ems-qart
+
+base: org.deepin.foundation/23.0.0
+runtime: org.deepin.Runtime/23.0.1
+
+sources:
+  - kind: git
+    url: https://github.com/rbino/ems-qart.git
+    version: master
+    commit: 373ade145e05298e6df6812fbd07a9796b5d8226
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0-dev_1.0.22-2_amd64.deb
+    digest: 0c5bc545ab92ae00274f3b33fdadfa895024877884abaaa86380846669252429
+  - kind: file
+    url: http://ftp.cn.debian.org/debian/pool/main/libu/libusb-1.0/libusb-1.0-0_1.0.22-2_amd64.deb
+    digest: 37be9e682f0fd7533b7bb9d91af802a5070ad68eb9434036af5bc2815efb2615
+  - kind: file
+    url: http://security.debian.org/debian-security/pool/updates/main/s/systemd/libudev1_241-7~deb10u10_amd64.deb
+    digest: 6c3940c2f65bff61f416b32fee24ceaafb241876307ab80e409dae7514f55141
+build: |
+  bash ./install_dep linglong/sources $PREFIX
+
+  cd /project/linglong/sources/ems-qart.git
+  git apply ../../../0001-install.patch
+  qmake -makefile PREFIX=${PREFIX} LIB_INSTALL_DIR=${PREFIX}/lib/${TRIPLET}
+  make -j$(nproc)
+  make install
